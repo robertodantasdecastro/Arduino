@@ -1,0 +1,151 @@
+int retornarSensor (){
+  int SensorAbre = digitalRead(PinSensrAbre);
+  int SensorFech = digitalRead(PinSensrFech);
+  int EstadoPorta;
+
+  if (SensorAbre == 1 and SensorFech == 0) {
+    EstadoPorta=1; // porta encontra-se aberta
+    //   Serial.println("Porta Aberta");
+  }
+  else if (SensorAbre == 0 and SensorFech == 1) {
+    EstadoPorta=2; //porta encotra-se fechada
+    //   Serial.println("Porta Fechada");
+  }
+  else if (SensorAbre == 0 and SensorFech == 0) {
+    EstadoPorta=0; //porta encontra-se etreaberta;
+    //   Serial.println("Porta Entreaberta");
+  }
+  else if (SensorAbre == 1 and SensorFech == 1) {
+    EstadoPorta=3; ///Estado de erro!
+    //Serial.println("ERRO!");
+  }
+  return(EstadoPorta);
+}
+
+void verificaSensor (){
+
+  int EstAtual=retornarSensor();
+
+  if (Atividade > 0) {
+    if (EstAtual == 1 and parado == 0 and Atividade == 1) {
+
+      Parar ();
+      Serial.println("PARADO 1"); 
+
+    }
+    else if (EstAtual == 2 and parado == 0 and Atividade == 2) {
+
+      Parar ();  
+      Serial.println("PARADO 2"); 
+
+
+    }
+    else if (EstAtual == 3 and parado == 0) {
+
+      Parar (); 
+      Serial.println("PARADO 3");   
+
+
+    }
+    else if (EstAtual == 0 and parado == 1) {
+
+      parado = 0;   
+
+    }
+  }
+
+}
+
+void AbrirFechar(){
+
+  int EstAtual=retornarSensor();
+
+  if (EstAtual==1) {
+    Fechar ();
+    //delay000);
+  } 
+  else if (EstAtual==2) {
+    Abrir();
+    //delay(2000);
+  } 
+  else if (EstAtual==0) {
+    //  Fechar ();
+  }  
+}
+void ArbrirTempo (int tempo) {
+  int T = tempo * 1000;
+  int T_atual = millis();
+  int T_corrente;
+
+  Serial.println("Abrindo!!!");
+  Abrir();
+  if (permitido == 1) {
+    Abrir();   
+    //delay(2000);
+  } 
+  if (T_corrente < T_corrente+T) {
+    permitido = 0;
+    Fechar ();
+    T_corrente = T_atual;
+    //break; 
+
+  }
+}
+
+void fade (int ledPin) {
+ 
+ for(int fadeValue = 5 ; fadeValue <= 255; fadeValue +=5) { 
+    // sets the value (range from 0 to 255):
+    analogWrite(ledPin, fadeValue);         
+    // wait for 30 milliseconds to see the dimming effect    
+    delay(20);                            
+  } 
+
+  // fade out from max to min in increments of 5 points:
+  for(int fadeValue = 255 ; fadeValue >= 5; fadeValue -=5) { 
+    // sets the value (range from 0 to 255):
+    analogWrite(ledPin, fadeValue);         
+    // wait for 30 milliseconds to see the dimming effect    
+    delay(20);                            
+  }  
+  
+}
+
+void fadeSec (int ledPin1, int ledPin2) {
+ 
+ for(int fadeValue = 5 ; fadeValue <= 255; fadeValue +=5) { 
+    // sets the value (range from 0 to 255):
+    analogWrite(ledPin2, fadeValue);    
+    analogWrite(ledPin1, fadeValue);
+        
+    // wait for 30 milliseconds to see the dimming effect    
+    delay(20);                            
+  } 
+
+  // fade out from max to min in increments of 5 points:
+  for(int fadeValue = 255 ; fadeValue >= 5; fadeValue -=5) { 
+    // sets the value (range from 0 to 255):
+    analogWrite(ledPin2, fadeValue);
+    analogWrite(ledPin1, fadeValue);
+        
+    // wait for 30 milliseconds to see the dimming effect    
+    delay(20);                            
+  }  
+  
+}
+
+
+void ledColorido(int p1, int p2, int p3){
+
+  int vermelho=p1;      //Pin 9
+  int verde=p2;    //Pin 10
+  int azul=p3;      //Pin 11
+  
+  
+  
+  //fade (vermelho);
+  //fadeSec (verde, vermelho);
+}
+
+
+

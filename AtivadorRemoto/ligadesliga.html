@@ -1,0 +1,25 @@
+﻿cliente.println("<! HTTP/1.1 200 OK Contenr-Type: text/html Connection: close >");
+cliente.println("<!DOCTYPE HTMK>");
+cliente.println("<html><head>");
+cliente.println("<meta http-equiv=\"refresh\" content=\"15\" />");
+cliente.println("<title>Ativador Remoto</title>");
+cliente.println("<style type=\"text/css\">");
+cliente.println(".botaoLigar {font-family: Verdana, Geneva, sans-serif; font-size: 10px; font-style: normal; font-weight: bold; font-variant: normal; color: #060; text-decoration: none;  }");
+cliente.println(".botaoDesligar {font-family: Verdana, Geneva, sans-serif; font-size: 10px; font-style: normal; font-weight: bold; font-variant: normal; color: #FF3333; text-decoration: none; }");
+cliente.println(".Titulo { font-family: Verdana, Geneva, sans-serif; font-size: 15px; font-style: normal; line-height: normal; font-weight: bolder; font-variant: normal; text-transform: none; color: #036; }");
+cliente.println(".TextoPP { font-family: Verdana, Geneva, sans-serif; font-size: 8px; font-style: normal; line-height: normal; font-weight: bolder; font-variant: normal; text-transform: none; color: #036; }");
+cliente.println("</style></head>");
+
+cliente.println("<body bgcolor=\"#FFFFFF\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">");
+cliente.println("<div align=\"center\" class=\"Titulo\"><b>Ativador Remoto</b></div><br><div align=\"center\"><table width=\"10\" border=\"0\" cellspacing=\"1\" bgcolor=\"#006600\" cellpadding=\"0\">");
+cliente.println("<tr><td>");
+cliente.println("<a href=\"?cmd=on\">");
+cliente.println("<button class=\"botaoLigar\" style=\"border:1px; border-left:1px; border-bottom:1px; border-right:1px; border-top:1px; border-color:#060;\" type='button' >LIGAR</button></a></td>");
+cliente.println("</tr></table></div><br>");
+cliente.println("<div align=\"center\"><br><table width=\"10\" border=\"0\" cellspacing=\"1\" bgcolor=\"#FF3333\" cellpadding=\"0\">");
+cliente.println("<tr><td> ");
+cliente.println("<a href=\"?cmd=off\">");
+cliente.println("<button class=\"botaoDesligar\" style=\"border:1px; border-left:1px; border-bottom:1px; border-right:1px; border-top:1px; border-color:#FF3333;\" type='button' >DESLIGA</button></a></td>");
+cliente.println("</tr></table></div>");
+cliente.println("<div align=\"center\" class=\"TextoPP\"><br><br> Ativador web de chave trifásica 1.0<br>roberto@dantasdecastro.com.br</div>");
+cliente.println("</body></html>");

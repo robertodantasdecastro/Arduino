@@ -1,0 +1,123 @@
+
+#include <SoftwareSerial.h>
+#include "config.h"
+#include "funcoes.h"
+boolean config=false;
+boolean inicia=false;
+boolean recebeLinha=false;
+
+SoftwareSerial comIn(RX_TX[0],RX_TX[1]);
+void setup () {
+
+
+  Serial.begin(9600);
+  comIn.begin(57600);
+  Serial.println("Iniciando");
+
+
+  int l=0; //variavel de controle de linhas
+  int n=0;
+  int numeroBomba=0;
+
+  String Valor="";
+  String Valvula[45];
+  comIn.println("@INICIAR");
+  while (!config) {    
+    if (!recebeLinha){
+
+      if (comIn.available()>0) {
+        char recebe[]="";
+        char var = comIn.read();
+        //   Serial.println(var);
+        if (var=='@'){
+          inicia=true; 
+        }
+        if (var==';'){
+          recebeLinha=true;
+          Serial.println("Saindo.");   
+        }
+        if (inicia){        
+          recebe[n]=var;
+          Valor=Valor+recebe[n];
+          n++;  
+
+        } 
+        else {
+          n=0; 
+        }
+
+      } 
+      else {   
+        if (l==0){
+          comIn.println("@CONFIG;");           
+          delay(1000);
+        }
+      }
+    } 
+    else {
+
+      Serial.print(l);
+      Serial.print("  - Recebendo: ");
+      Valvula[l]=Valor;
+      Serial.println(Valvula[l]);
+
+      if (Valor.substring(0,1) == "@"){
+
+        if (Valor.substring(1,2) == "C"){
+          comIn.println("@CONFIG;"); 
+        }
+        if (Valor.substring(1,2) == "B"){
+          l++;
+          char recebeNb[1];
+          String nb=Valor.substring(2,3);
+          nb.toCharArray(recebeNb,2);
+          Serial.println(recebeNb);
+          numeroBomba=atoi(recebeNb);
+
+          Serial.print("Numero de Bombas: ");
+          Serial.println(numeroBomba);
+
+          comIn.println("@OKBMB;");       
+        }
+        if (numeroBomba >0){ 
+          if (Valor.substring(1,2) == "V"){
+            l++;
+            int tStr=Valor.length();
+            for (int i=0; i<Valor.length()-1; i++){   
+              Serial.println(Valor[i]);
+              // delay(100);  
+            }          
+            comIn.println("@OKVAL;");
+          }
+
+          if (Valor.substring(1,2) == "F"){
+            comIn.println("@OKCFG;");
+            config=true;
+            Serial.println("FIM."); 
+          }
+        }
+      }
+      Valor="";
+      recebeLinha=false;
+      //  comIn.println(Valor);
+    }
+  }
+  Serial.println("SAINDO P LOOP!");
+}
+
+void loop (){  
+  Serial.println("LOOP!");
+  delay(2000);
+
+
+}
+
+
+
+
+
+
+
+
+
+
